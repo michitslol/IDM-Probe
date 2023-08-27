@@ -19,10 +19,16 @@ echo "idm: linking klippy to idm.py."
 if [ -e "${KDIR}/klippy/extras/idm.py" ]; then
     rm "${KDIR}/klippy/extras/idm.py"
 fi
+if [ -e "${KDIR}/klippy/extras/idm_accel.py" ]; then
+    rm "${KDIR}/klippy/extras/idm_accel.py"
+fi
 ln -s "${BKDIR}/idm.py" "${KDIR}/klippy/extras/idm.py"
-
+ln -s "${BKDIR}/idm.py" "${KDIR}/klippy/extras/idm_accel.py"
 # exclude idm.py from klipper git tracking
 if ! grep -q "klippy/extras/idm.py" "${KDIR}/.git/info/exclude"; then
     echo "klippy/extras/idm.py" >> "${KDIR}/.git/info/exclude"
+fi
+if ! grep -q "klippy/extras/idm_accel.py" "${KDIR}/.git/info/exclude"; then
+    echo "klippy/extras/idm_accel.py" >> "${KDIR}/.git/info/exclude"
 fi
 echo "idm: installation successful."

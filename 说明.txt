@@ -1,51 +1,69 @@
-解压后拖到klipper文件夹所在的用户目录
-执行install.sh
+在用户目录下执行git clone https://gitee.com/NBTP/IDM.git 下载程序包
 
+执行chmod +x IDM/install.sh
+然后执行IDM/install.sh进行安装
+这一步会自动把脚本创建一个链接放到klipper/klipper/extra目录下
+然后
 [idm]
 serial:/dev/serial/by-id/usb-IDM_614e_473431383817584A-if00
-
-#/dev/serial/by-id/usb-1a86_USB2.0-Ser_-if00-port0
-#   Path to the serial port for the idm device. Typically has the form
-#   /dev/serial/by-id/usb-idm_idm_...
+#   Path to the serial port for the idm device. Typically has the form
+#   /dev/serial/by-id/usb-idm_idm_...
 speed: 40.
-#   Z probing dive speed.
+#   Z probing dive speed.
 lift_speed: 5.
-#   Z probing lift speed.
+#   Z probing lift speed.
 backlash_comp: 0.5
-#   Backlash compensation distance for removing Z backlash before measuring
-#   the sensor response.
+#   Backlash compensation distance for removing Z backlash before measuring
+#   the sensor response.
 x_offset: 0.
-#   X offset of idm from the nozzle.
+#   X offset of idm from the nozzle.
 y_offset: 21.1
-#   Y offset of idm from the nozzle.
+#   Y offset of idm from the nozzle.
 trigger_distance: 2.
-#   idm trigger distance for homing.
+#   idm trigger distance for homing.
 trigger_dive_threshold: 1.5
-#   Threshold for range vs dive mode probing. Beyond `trigger_distance +
-#   trigger_dive_threshold` a dive will be used.
+#   Threshold for range vs dive mode probing. Beyond `trigger_distance +
+#   trigger_dive_threshold` a dive will be used.
 trigger_hysteresis: 0.006
-#   Hysteresis on trigger threshold for untriggering, as a percentage of the
-#   trigger threshold.
+#   Hysteresis on trigger threshold for untriggering, as a percentage of the
+#   trigger threshold.
 cal_nozzle_z: 0.1
-#   Expected nozzle offset after completing manual Z offset calibration.
+#   Expected nozzle offset after completing manual Z offset calibration.
 cal_floor: 0.1
-#   Minimum z bound on sensor response measurement.
+#   Minimum z bound on sensor response measurement.
 cal_ceil:5.
-#   Maximum z bound on sensor response measurement.
+#   Maximum z bound on sensor response measurement.
 cal_speed: 1.0
-#   Speed while measuring response curve.
+#   Speed while measuring response curve.
 cal_move_speed: 10.
-#   Speed while moving to position for response curve measurement.
+#   Speed while moving to position for response curve measurement.
 default_model_name: default
-#   Name of default idm model to load.
-mesh_main_direction: y
-#   Primary travel direction during mesh measurement.
+#   Name of default idm model to load.
+mesh_main_direction: x
+#   Primary travel direction during mesh measurement.
 #mesh_overscan: -1
-#   Distance to use for direction changes at mesh line ends. Omit this setting
-#   and a default will be calculated from line spacing and available travel.
+#   Distance to use for direction changes at mesh line ends. Omit this setting
+#   and a default will be calculated from line spacing and available travel.
 mesh_cluster_size: 1
-#   Radius of mesh grid point clusters.
+#   Radius of mesh grid point clusters.
 mesh_runs: 2
-#   Number of passes to make during mesh scan.
-serial改成你自己的
-probe项可以删了
+#   Number of passes to make during mesh scan.
+将这段配置放进printer.cfg并将serial修改为你查询到的idm的串口号
+在配置里再加入
+[force_move]
+enable_force_move: true
+方便校准，校准全部结束后可删除
+
+之后把[probe]模块删除
+并将z限位修改为probe:z_virtual_endstop
+还需要设置
+[safe_z_home]
+home_xy_position: 【你的x轴中心坐标】,【你的y轴中心坐标】
+z_hop: 10
+记得设置[bed_mesh]不然会报错
+
+重启之后将徒手热端移动到中间并将喷嘴贴到平台上
+输入SET_KINEMATIC_POSITION x=【平台中心x坐标】 y=【平台中心y轴坐标】 z=0
+之后执行idm_calibrate的指令
+点击-0.1的偏移后确认，会自动进行校准
+在控制台输入idm并按tab键可以看到所有支持的指令

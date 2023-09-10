@@ -133,7 +133,7 @@ class IDMProbe:
     def _handle_mcu_identify(self):
         constants = self._mcu.get_constants()
 
-        self.sensor_freq = self._mcu._mcu_freq if self._mcu._mcu_freq < 20 else self._mcu._mcu_freq/2
+        self.sensor_freq = self._mcu._mcu_freq if self._mcu._mcu_freq < 20000000 else self._mcu._mcu_freq/2
         self.inv_adc_max = 1.0 / constants.get("ADC_MAX")
         self.temp_smooth_count = constants.get('IDM_ADC_SMOOTH_COUNT')
         self.thermistor = thermistor.Thermistor(10000., 0.)

@@ -8,6 +8,7 @@ idm scanner 上位机python代码
 软件架构说明
 
 #### 使用说明
+``` 
 在用户目录下执行git clone https://gitee.com/NBTP/IDM.git 下载程序包
 
 执行chmod +x IDM/install.sh
@@ -77,7 +78,7 @@ z_hop: 10
 之后执行idm_calibrate的指令
 点击-0.1的偏移后确认，会自动进行校准
 在控制台输入idm并按tab键可以看到所有支持的指令
-
+```
 
 #### 参与贡献
 

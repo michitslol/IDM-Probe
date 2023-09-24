@@ -9,6 +9,8 @@ idm scanner 上位机python代码
 
 #### 使用说明
 ``` 
+为了保证精度，请安装时尽可能让传感器线圈板的顶面低于加热块的底面。
+
 在用户目录下执行git clone https://gitee.com/NBTP/IDM.git 下载程序包
 
 执行chmod +x IDM/install.sh
@@ -16,7 +18,8 @@ idm scanner 上位机python代码
 这一步会自动把脚本创建一个链接放到klipper/klipper/extra目录下
 然后
 [idm]
-serial:/dev/serial/by-id/usb-IDM_614e_473431383817584A-if00
+serial:
+#canbus_uuid:
 #   Path to the serial port for the idm device. Typically has the form
 #   /dev/serial/by-id/usb-idm_idm_...
 speed: 40.
@@ -59,7 +62,9 @@ mesh_cluster_size: 1
 #   Radius of mesh grid point clusters.
 mesh_runs: 2
 #   Number of passes to make during mesh scan.
+请注意调整配置中的x y方向偏移。确保校准过程中喷头会将线圈移动到原先喷嘴所在xy位置。
 将这段配置放进printer.cfg并将serial修改为你查询到的idm的串口号
+can版本的话使用常规的查询方法搜索can的uuid并填入
 在配置里再加入
 [force_move]
 enable_force_move: true
@@ -73,11 +78,24 @@ home_xy_position: 【你的x轴中心坐标】,【你的y轴中心坐标】
 z_hop: 10
 记得设置[bed_mesh]不然会报错
 
-重启之后将徒手热端移动到中间并将喷嘴贴到平台上
+重启之后将热端移动到中间并徒手将喷嘴贴到平台上
 输入SET_KINEMATIC_POSITION x=【平台中心x坐标】 y=【平台中心y轴坐标】 z=0
 之后执行idm_calibrate的指令
 点击-0.1的偏移后确认，会自动进行校准
 在控制台输入idm并按tab键可以看到所有支持的指令
+
+将z_tilt或者quad_gantry_level中的horizontal_z_move降到trigger_distance + trigger_dive_threshold以下(默认为3)可以使调平进入高速模式，觉得太低可以适当拉高trigger_dive_threshold使horizontal_z_move可以拉高一些。
+
+
+含加速计(lis2dw)的版本可以在配置中添加以下内容启用加速计:
+[lis2dw]
+cs_pin: idm:PA3
+spi_bus: spi1
+
+[resonance_tester]
+accel_chip: lis2dw
+probe_points:
+    125, 125, 20  #此处设置为你进行共振测量时喷头所处坐标
 ```
 
 #### 参与贡献

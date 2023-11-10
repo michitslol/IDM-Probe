@@ -1,22 +1,25 @@
-# IDM scanner
+NOTE: THIS IS  1 to 1 TRANSLATE FROM CHINESE FROM THE OFFICIAL MANUAL
 
-#### 介绍
-idm scanner 上位机python代码
-修改自beacon
+#IDM scanner
 
-#### 软件架构
-软件架构说明
+#### introduce
+idm scanner host computer python code
+Modified from beacon
 
-#### 使用说明
-``` 
-为了保证精度，请安装时尽可能让传感器线圈板的顶面低于加热块的底面。
+#### Software Architecture
+Software architecture description
 
-在用户目录下执行git clone https://gitee.com/NBTP/IDM.git 下载程序包
+#### Instructions for use
+```
+To ensure accuracy, please install so that the top surface of the sensor coil plate is lower than the bottom surface of the heating block as much as possible.
 
-执行chmod +x IDM/install.sh
-然后执行IDM/install.sh进行安装
-这一步会自动把脚本创建一个链接放到klipper/klipper/extra目录下
-然后
+
+Execute git clone https://gitee.com/NBTP/IDM.git in the user directory to download the package
+
+Execute chmod +x IDM/install.sh
+Then execute IDM/install.sh to install
+This step will automatically create a link to the script and place it in the klipper/klipper/extra directory.
+
 [idm]
 serial:
 #canbus_uuid:
@@ -62,32 +65,32 @@ mesh_cluster_size: 1
 #   Radius of mesh grid point clusters.
 mesh_runs: 2
 #   Number of passes to make during mesh scan.
-请注意调整配置中的x y方向偏移。确保校准过程中喷头会将线圈移动到原先喷嘴所在xy位置。
-将这段配置放进printer.cfg并将serial修改为你查询到的idm的串口号
-can版本的话使用常规的查询方法搜索can的uuid并填入
-在配置里再加入
+Please pay attention to the x y direction offset in the adjustment configuration. Make sure that during the calibration process, the nozzle will move the coil to the xy position of the original nozzle.
+Put this configuration into printer.cfg and change serial to the serial number of the idm you queried.
+For the can version, use the regular query method to search for the uuid of can and fill it in.
+Add it to the configuration
 [force_move]
 enable_force_move: true
-方便校准，校准全部结束后可删除
+Convenient for calibration and can be deleted after all calibrations are completed
 
-之后把[probe]模块删除
-并将z限位修改为probe:z_virtual_endstop
-还需要设置
+Then delete the [probe] module
+And modify the z limit to probe:z_virtual_endstop
+Still need to set
 [safe_z_home]
-home_xy_position: 【你的x轴中心坐标】,【你的y轴中心坐标】
+home_xy_position: [Your x-axis center coordinate], [Your y-axis center coordinate]
 z_hop: 10
-记得设置[bed_mesh]不然会报错
+[Your x-axis center coordinate], [Your y-axis center coordinate]
 
-重启之后将热端移动到中间并徒手将喷嘴贴到平台上
-输入SET_KINEMATIC_POSITION x=【平台中心x坐标】 y=【平台中心y轴坐标】 z=0
-之后执行idm_calibrate的指令
-点击-0.1的偏移后确认，会自动进行校准
-在控制台输入idm并按tab键可以看到所有支持的指令
+After restarting, move the hot end to the middle and attach the nozzle to the platform with your bare hands
+Input SET_KINEMATIC_POSITION x=[x-coordinate of platform center] y=[y-axis coordinate of platform center] z=0
+Then execute the idm_calibrate command
+Click on the offset of -0.1 to confirm, and calibration will be performed automatically.
+Enter idm in the console and press the tab key to see all supported commands.
 
-将z_tilt或者quad_gantry_level中的horizontal_z_move降到trigger_distance + trigger_dive_threshold以下(默认为3)可以使调平进入高速模式，觉得太低可以适当拉高trigger_dive_threshold使horizontal_z_move可以拉高一些。
+Lowering the horizontal_z_move in z_tilt or quad_gantry_level below trigger_distance + trigger_dive_threshold (default is 3) can put the leveling into high-speed mode. If it is too low, you can raise the trigger_dive_threshold appropriately so that horizontal_z_move can be raised higher.
 
 
-含加速计(lis2dw)的版本可以在配置中添加以下内容启用加速计:
+For versions that include an accelerometer (lis2dw), you can enable the accelerometer by adding the following to the configuration:
 [lis2dw]
 cs_pin: idm:PA3
 spi_bus: spi1
@@ -95,22 +98,23 @@ spi_bus: spi1
 [resonance_tester]
 accel_chip: lis2dw
 probe_points:
-    125, 125, 20  #此处设置为你进行共振测量时喷头所处坐标
+    125, 125, 20  #Set here is the coordinates of the nozzle when you perform resonance measurement
 ```
 
-#### 参与贡献
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+#### Participate and contribute
+
+1. Fork this warehouse
+2. Create a new Feat_xxx branch
+3. Submit code
+4. Create a new Pull Request
 
 
-#### 特技
+#### Stunts
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+1. Use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
+2. Gitee official blog [blog.gitee.com](https://blog.gitee.com)
+3. You can learn about excellent open source projects on Gitee at [https://gitee.com/explore](https://gitee.com/explore)
+4. [GVP](https://gitee.com/gvp) The full name is Gitee’s most valuable open source project, which is an excellent open source project evaluated comprehensively.
+5. Official user manual provided by Gitee [https://gitee.com/help](https://gitee.com/help)
+6. Gitee Cover Character is a column used to showcase the style of Gitee members [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
